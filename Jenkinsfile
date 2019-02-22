@@ -4,10 +4,10 @@ pipeline {
     stages {
         stage ('Deloy') {
             steps {
-                timeout(5) {
+                timeout(1) {
                     waitUntil {
                         script {
-                        def r = sh script: 'docker exec java-jdk java -jar /home/demojenkins-0.0.1-SNAPSHOT.jar sleep 90', returnStatus: true
+                        def r = sh script: 'docker exec java-jdk java -jar /home/demojenkins-0.0.1-SNAPSHOT.jar', returnStatus: true
                         return (r == 0);
                         }
                     }
