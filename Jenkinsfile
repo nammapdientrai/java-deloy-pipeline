@@ -4,14 +4,13 @@ pipeline {
     stages {
         stage ('Deloy') {
             steps {
-                timeout(1) {
-                    waitUntil {
-                        script {
-                        def r = sh script: 'docker exec java-jdk java -jar /home/demojenkins-0.0.1-SNAPSHOT.jar', returnStatus: true
-                        return (r == 0);
-                        }
-                    }
-                }    
+                sh 'docker exec java-jdk java -jar /home/demojenkins-0.0.1-SNAPSHOT.jar'  
+            }
+
+            post {
+                always {
+                    echo 'running .......'
+                }
             }
         }
 
