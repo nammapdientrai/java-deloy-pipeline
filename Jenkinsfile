@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    stage('Setup container JDK') {
+        steps {
+            sh 'docker container stop java-jdk'
+            sh 'docker container rm java-jdk'
+            sh 'docker run --name java-jdk -d -v /opt/tomcat/.jenkins/workspace/java-full-pipeline/demojenkins/target:/home -i openjdk'
+        }
+    }
+
     stages {
         stage ('Deloy') {
             steps {
