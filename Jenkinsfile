@@ -10,14 +10,20 @@ pipeline {
             }
         }
 
-        stage ('Deloy') {
+        stage('Deloy') {
             steps {
-                sh 'docker exec java-jdk java -jar /home/demojenkins-0.0.1-SNAPSHOT.jar'  
-            }
+                timeout(time: 2, unit: 'MINUTES') {
+                    script {
+                        waitUntil {
+                            def ret = sh script: 'docker exec java-jdk java -jar /home/demojenkins-0.0.1-SNAPSHOT.jar', returnStdout: true
+                            if (ret.trim() != "0" ) {
+                                return false
+                            } else {
+                                return true
+                            }                            
+                        }
 
-            post {
-                always {
-                    echo 'running .......'
+                    }
                 }
             }
         }
